@@ -3,8 +3,8 @@ package com.example.pruebacondorlabs.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.pruebacondorlabs.db.model.Teams
-import com.example.pruebacondorlabs.repository.MainActivityRepository
+import com.example.pruebacondorlabs.db.model.Results
+import com.example.pruebacondorlabs.repository.DetailActivityRepository
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -12,35 +12,35 @@ import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
 import javax.inject.Inject
 
-class DetailActivityViewModel @Inject constructor(private val mainActivityRepository: MainActivityRepository) :
+class DetailActivityViewModel @Inject constructor(private val detailActivityRepository: DetailActivityRepository) :
     ViewModel() {
 
-    private val successMain: MutableLiveData<Teams> = MutableLiveData()
-    private val errorMain = MutableLiveData<String>()
+    private val successDetail: MutableLiveData<Results> = MutableLiveData()
+    private val errorDetail = MutableLiveData<String>()
 
-    fun getSuccessMain(): LiveData<Teams> {
-        return successMain
+    fun getSuccessDetail(): LiveData<Results> {
+        return successDetail
     }
 
-    fun getErrorMain(): LiveData<String?> {
-        return errorMain
+    fun getErrorDetail(): LiveData<String?> {
+        return errorDetail
     }
 
-    fun getTeamsByLeague(league: String) {
-        mainActivityRepository.getTeamsByLeague(league).subscribeOn(Schedulers.io())
+    fun getEventsByTeamId(id: String) {
+        detailActivityRepository.getEventsByTeamId(id).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : SingleObserver<Response<Teams>> {
+            .subscribe(object : SingleObserver<Response<Results>> {
                 override fun onSubscribe(d: Disposable) {}
 
                 override fun onError(e: Throwable) {
-                    errorMain.value = e.message
+                    errorDetail.value = e.message
                 }
 
-                override fun onSuccess(teams: Response<Teams>) {
+                override fun onSuccess(results: Response<Results>) {
                     try {
-                        successMain.value = teams.body()
+                        successDetail.value = results.body()
                     } catch (e: Exception) {
-                        errorMain.value =
+                        errorDetail.value =
                             "El servicio falló, vuelve a intentar"
                     }
                 }

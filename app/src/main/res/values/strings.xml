@@ -4,4 +4,6 @@
     <string name="name">Name</string>
     <string name="stadium">Estadio</string>
     <string name="yearFormed">Año formación</string>
+    <string name="event">Evento</string>
+    <string name="match">Partido</string>
 </resources>

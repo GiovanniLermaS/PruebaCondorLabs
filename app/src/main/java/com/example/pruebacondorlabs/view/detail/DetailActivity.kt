@@ -12,8 +12,8 @@ import com.example.pruebacondorlabs.R
 import com.example.pruebacondorlabs.application.MyApplication
 import com.example.pruebacondorlabs.db.AppDatabase
 import com.example.pruebacondorlabs.db.model.Team
-import com.example.pruebacondorlabs.util.TEAM
-import com.example.pruebacondorlabs.util.ViewModelFactory
+import com.example.pruebacondorlabs.util.*
+import com.example.pruebacondorlabs.view.detail.adapter.EventAdapter
 import com.example.pruebacondorlabs.viewmodel.DetailActivityViewModel
 import kotlinx.android.synthetic.main.activity_detail.*
 import javax.inject.Inject
@@ -31,12 +31,36 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        showProgress(this, isAlertInit = true)
         setContentView(R.layout.activity_detail)
         (applicationContext as MyApplication).getComponent()?.inject(this)
 
         detailActivityViewModel =
             ViewModelProviders.of(this, viewModelFactory).get(DetailActivityViewModel::class.java)
+        setPrincipalData()
 
+        detailActivityViewModel?.getEventsByTeamId(team.idTeam.toString())
+        detailActivityViewModel?.getSuccessDetail()?.observe(this) { listResults ->
+            rvListEvents.adapter = EventAdapter(this, listResults.results)
+            showProgress(this, isAlertInit = false)
+        }
+        detailActivityViewModel?.getErrorDetail()?.observe(this) { message ->
+            Log.e("Error consume service", message!!)
+            showProgress(this, isAlertInit = false)
+        }
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.ivGlobe -> intentSocialMedia(team.strWebsite, 0)
+            R.id.ivFacebook -> intentSocialMedia(team.strFacebook, 1)
+            R.id.ivTwitter -> intentSocialMedia(team.strTwitter, 2)
+            R.id.ivInstagram -> intentSocialMedia(team.strInstagram, 3)
+            R.id.ivYoutube -> intentSocialMedia(team.strYoutube, 4)
+        }
+    }
+
+    private fun setPrincipalData() {
         val name = "${getString(R.string.name)}: ${team.strTeam}"
         val yearFormed = "${getString(R.string.yearFormed)}: ${team.intFormedYear}"
 
@@ -52,24 +76,14 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
         socialMediaIsVisible(team.strYoutube, 4)
     }
 
-    override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.ivGlobe -> intentSocialMedia(team.strWebsite, 0)
-            R.id.ivFacebook -> intentSocialMedia(team.strFacebook, 1)
-            R.id.ivTwitter -> intentSocialMedia(team.strTwitter, 2)
-            R.id.ivInstagram -> intentSocialMedia(team.strInstagram, 3)
-            R.id.ivYoutube -> intentSocialMedia(team.strYoutube, 4)
-        }
-    }
-
     private fun intentSocialMedia(socialMedia: String?, case: Int) {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse("https://$socialMedia")
         try {
             when (case) {
-                2 -> intent.setPackage("com.twitter.android")
-                3 -> intent.setPackage("com.instagram.android")
-                4 -> intent.setPackage("com.google.android.youtube")
+                2 -> intent.setPackage(PACKAGE_TWITTER)
+                3 -> intent.setPackage(PACKAGE_INSTAGRAM)
+                4 -> intent.setPackage(PACKAGE_YOUTUBE)
             }
             startActivity(intent)
         } catch (e: Exception) {
