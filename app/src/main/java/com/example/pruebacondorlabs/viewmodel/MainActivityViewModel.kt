@@ -15,15 +15,23 @@ import javax.inject.Inject
 class MainActivityViewModel @Inject constructor(private val mainActivityRepository: MainActivityRepository) :
     ViewModel() {
 
-    private val successMain: MutableLiveData<Teams> = MutableLiveData()
-    private val errorMain = MutableLiveData<String>()
+    private var successMain: MutableLiveData<Teams>? = MutableLiveData()
+    private var errorMain: MutableLiveData<String>? = MutableLiveData<String>()
 
-    fun getSuccessMain(): LiveData<Teams> {
+    fun getSuccessMain(): LiveData<Teams>? {
         return successMain
     }
 
-    fun getErrorMain(): LiveData<String?> {
+    fun setSuccessMain(team: Teams?) {
+        this.successMain?.value = team
+    }
+
+    fun getErrorMain(): LiveData<String>? {
         return errorMain
+    }
+
+    fun setErrorMain(message: String?) {
+        this.errorMain?.value = message
     }
 
     fun getTeamsByLeague(league: String) {
@@ -33,14 +41,14 @@ class MainActivityViewModel @Inject constructor(private val mainActivityReposito
                 override fun onSubscribe(d: Disposable) {}
 
                 override fun onError(e: Throwable) {
-                    errorMain.value = e.message
+                    errorMain?.value = e.message
                 }
 
                 override fun onSuccess(teams: Response<Teams>) {
                     try {
-                        successMain.value = teams.body()
+                        successMain?.value = teams.body()
                     } catch (e: Exception) {
-                        errorMain.value =
+                        errorMain?.value =
                             "El servicio falló, vuelve a intentar"
                     }
                 }

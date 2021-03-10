@@ -6,4 +6,11 @@
     <string name="yearFormed">Año formación</string>
     <string name="event">Evento</string>
     <string name="match">Partido</string>
+    <string name="spn_title">Selecciona una liga</string>
+    <string-array name="league_spinner">
+        <item>Spanish La Liga</item>
+        <item>English Premier League</item>
+        <item>Scottish Premier League</item>
+        <item>French Ligue 1</item>
+    </string-array>
 </resources>

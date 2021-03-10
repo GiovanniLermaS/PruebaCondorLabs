@@ -6,6 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".view.main.MainActivity">
 
+    <Spinner
+        android:id="@+id/spinnerLeague"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:entries="@array/league_spinner"
+        android:prompt="@string/spn_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginTop="20dp" />
+
+    <TextView
+        android:id="@+id/tvNameLeague"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerLeague" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvListTeams"
         android:layout_width="0dp"
@@ -14,5 +38,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tvNameLeague" />
 </androidx.constraintlayout.widget.ConstraintLayout>

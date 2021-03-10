@@ -2,12 +2,13 @@ package com.example.pruebacondorlabs.view.main
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.example.pruebacondorlabs.R
 import com.example.pruebacondorlabs.application.MyApplication
 import com.example.pruebacondorlabs.db.AppDatabase
-import com.example.pruebacondorlabs.util.SPANISH_LA_LIGA
 import com.example.pruebacondorlabs.util.ViewModelFactory
 import com.example.pruebacondorlabs.util.showProgress
 import com.example.pruebacondorlabs.view.main.adapter.TeamAdapter
@@ -15,34 +16,52 @@ import com.example.pruebacondorlabs.viewmodel.MainActivityViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     var appDatabase: AppDatabase? = null
         @Inject set
     var viewModelFactory: ViewModelFactory? = null
         @Inject set
     var mainActivityViewModel: MainActivityViewModel? = null
+    private var leagueSelected: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        showProgress(this, isAlertInit = true)
         setContentView(R.layout.activity_main)
         (applicationContext as MyApplication).getComponent()?.inject(this)
 
         mainActivityViewModel =
             ViewModelProviders.of(this, viewModelFactory).get(MainActivityViewModel::class.java)
-        consumeServiceTeamsByLeague()
+        spinnerLeague.onItemSelectedListener = this
     }
 
-    private fun consumeServiceTeamsByLeague() {
-        mainActivityViewModel?.getTeamsByLeague(SPANISH_LA_LIGA)
-        mainActivityViewModel?.getSuccessMain()?.observe(this) { listTeamsByLeague ->
-            rvListTeams.adapter = TeamAdapter(this, listTeamsByLeague.teams)
-            showProgress(this, isAlertInit = false)
-        }
-        mainActivityViewModel?.getErrorMain()?.observe(this) { message ->
-            Log.e("Error consume service", message!!)
-            showProgress(this, isAlertInit = false)
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        showProgress(this, isAlertInit = true)
+        val item = parent!!.getItemAtPosition(position).toString()
+        tvNameLeague.text = item
+        consumeServiceTeamsByLeague(item)
+        leagueSelected = item
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+    private fun consumeServiceTeamsByLeague(league: String) {
+        if (leagueSelected != league) {
+            mainActivityViewModel?.getTeamsByLeague(league)
+            mainActivityViewModel?.getSuccessMain()?.observe(this) { listTeamsByLeague ->
+                if (listTeamsByLeague != null) {
+                    rvListTeams.adapter = TeamAdapter(this, listTeamsByLeague.teams)
+                    mainActivityViewModel?.setSuccessMain(null)
+                    showProgress(this, isAlertInit = false)
+                }
+            }
+            mainActivityViewModel?.getErrorMain()?.observe(this) { message ->
+                if (message != null) {
+                    Log.e("Error consume service", message)
+                    mainActivityViewModel?.setErrorMain(null)
+                    showProgress(this, isAlertInit = false)
+                }
+            }
         }
     }
 }

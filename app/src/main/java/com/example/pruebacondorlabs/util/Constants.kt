@@ -11,7 +11,6 @@ const val BASE_URL_RETROFIT = "https://www.thesportsdb.com/api/v1/json/1/"
 const val ALL_TEAMS_BY_LEAGUE = "search_all_teams.php"
 const val EVENTS_LAST = "eventslast.php"
 const val LEAGUE = "l"
-const val SPANISH_LA_LIGA = "Spanish La Liga"
 const val TEAM = "team"
 const val ID = "id"
 
