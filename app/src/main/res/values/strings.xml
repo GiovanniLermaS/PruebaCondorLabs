@@ -7,6 +7,10 @@
     <string name="event">Evento</string>
     <string name="match">Partido</string>
     <string name="spn_title">Selecciona una liga</string>
+    <string name="addedToFavorite">Añadido a favoritos</string>
+    <string name="deleteFromFavorite">Eliminado de favoritos.</string>
+    <string name="myFavorite">Mis favoritos</string>
+    <string name="noItemsFavorite">No hay equipos favoritos añadidos</string>
     <string-array name="league_spinner">
         <item>Spanish La Liga</item>
         <item>English Premier League</item>

@@ -5,8 +5,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.pruebacondorlabs.R
 import com.example.pruebacondorlabs.application.MyApplication
@@ -15,7 +18,9 @@ import com.example.pruebacondorlabs.db.model.Team
 import com.example.pruebacondorlabs.util.*
 import com.example.pruebacondorlabs.view.detail.adapter.EventAdapter
 import com.example.pruebacondorlabs.viewmodel.DetailActivityViewModel
+import com.example.pruebamercadolibre.db.Executor
 import kotlinx.android.synthetic.main.activity_detail.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -37,8 +42,75 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
         detailActivityViewModel =
             ViewModelProviders.of(this, viewModelFactory).get(DetailActivityViewModel::class.java)
+        lifecycleScope.launch {
+            if (appDatabase?.teamDao()?.getTeamById(team.idTeam) == null) {
+                ivAddFavorite.setImageDrawable(
+                    ResourcesCompat.getDrawable(
+                        resources,
+                        R.drawable.ic_add,
+                        null
+                    )
+                )
+            } else {
+                ivAddFavorite.setImageDrawable(
+                    ResourcesCompat.getDrawable(
+                        resources,
+                        R.drawable.ic_check,
+                        null
+                    )
+                )
+            }
+        }
+        consumeEventByTeam()
         setPrincipalData()
+    }
 
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.ivAddFavorite -> addOrDeleteFromFavorites()
+            R.id.ivGlobe -> intentSocialMedia(team.strWebsite, 0)
+            R.id.ivFacebook -> intentSocialMedia(team.strFacebook, 1)
+            R.id.ivTwitter -> intentSocialMedia(team.strTwitter, 2)
+            R.id.ivInstagram -> intentSocialMedia(team.strInstagram, 3)
+            R.id.ivYoutube -> intentSocialMedia(team.strYoutube, 4)
+        }
+    }
+
+    private fun addOrDeleteFromFavorites() {
+        lifecycleScope.launch {
+            if (appDatabase?.teamDao()?.getTeamById(team.idTeam) == null) {
+                Executor.iOThread { appDatabase?.teamDao()?.setTeam(team) }
+                ivAddFavorite.setImageDrawable(
+                    ResourcesCompat.getDrawable(
+                        resources,
+                        R.drawable.ic_check,
+                        null
+                    )
+                )
+                Toast.makeText(
+                    this@DetailActivity,
+                    getString(R.string.addedToFavorite),
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                appDatabase?.teamDao()?.deleteTeamById(team.idTeam)
+                ivAddFavorite.setImageDrawable(
+                    ResourcesCompat.getDrawable(
+                        resources,
+                        R.drawable.ic_add,
+                        null
+                    )
+                )
+                Toast.makeText(
+                    this@DetailActivity,
+                    getString(R.string.deleteFromFavorite),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    }
+
+    private fun consumeEventByTeam() {
         detailActivityViewModel?.getEventsByTeamId(team.idTeam.toString())
         detailActivityViewModel?.getSuccessDetail()?.observe(this) { listResults ->
             rvListEvents.adapter = EventAdapter(this, listResults.results)
@@ -47,16 +119,6 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
         detailActivityViewModel?.getErrorDetail()?.observe(this) { message ->
             Log.e("Error consume service", message!!)
             showProgress(this, isAlertInit = false)
-        }
-    }
-
-    override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.ivGlobe -> intentSocialMedia(team.strWebsite, 0)
-            R.id.ivFacebook -> intentSocialMedia(team.strFacebook, 1)
-            R.id.ivTwitter -> intentSocialMedia(team.strTwitter, 2)
-            R.id.ivInstagram -> intentSocialMedia(team.strInstagram, 3)
-            R.id.ivYoutube -> intentSocialMedia(team.strYoutube, 4)
         }
     }
 

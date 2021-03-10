@@ -2,14 +2,14 @@ package com.example.pruebacondorlabs.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.pruebacondorlabs.db.dao.SiteDao
-import com.example.pruebacondorlabs.db.model.Site
+import com.example.pruebacondorlabs.db.dao.TeamDao
+import com.example.pruebacondorlabs.db.model.Team
 
 @Database(
-    entities = [Site::class],
+    entities = [Team::class],
     version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun siteDao(): SiteDao
+    abstract fun teamDao(): TeamDao
 }

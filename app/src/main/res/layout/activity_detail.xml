@@ -58,6 +58,16 @@
             app:layout_constraintStart_toEndOf="@+id/ivTeamBadgeDescription"
             app:layout_constraintTop_toBottomOf="@+id/tvNameTeamDescription" />
 
+        <ImageView
+            android:id="@+id/ivAddFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:onClick="onClick"
+            app:layout_constraintEnd_toEndOf="@+id/tvFormedTeamDescription"
+            app:layout_constraintStart_toStartOf="@+id/ivTeamBadgeDescription"
+            app:layout_constraintTop_toBottomOf="@+id/ivTeamBadgeDescription" />
+
         <TextView
             android:id="@+id/tvFoundDescription"
             android:layout_width="0dp"
@@ -69,7 +79,7 @@
             android:textStyle="normal"
             app:layout_constraintEnd_toEndOf="@+id/tvFormedTeamDescription"
             app:layout_constraintStart_toStartOf="@+id/ivTeamBadgeDescription"
-            app:layout_constraintTop_toBottomOf="@+id/ivTeamBadgeDescription" />
+            app:layout_constraintTop_toBottomOf="@+id/ivAddFavorite" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clSocialMedia"

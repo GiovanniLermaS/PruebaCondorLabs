@@ -1,5 +1,6 @@
 package com.example.pruebacondorlabs.view.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -8,18 +9,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.example.pruebacondorlabs.R
 import com.example.pruebacondorlabs.application.MyApplication
-import com.example.pruebacondorlabs.db.AppDatabase
 import com.example.pruebacondorlabs.util.ViewModelFactory
 import com.example.pruebacondorlabs.util.showProgress
+import com.example.pruebacondorlabs.view.favorite.FavoriteActivity
 import com.example.pruebacondorlabs.view.main.adapter.TeamAdapter
 import com.example.pruebacondorlabs.viewmodel.MainActivityViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, View.OnClickListener {
 
-    var appDatabase: AppDatabase? = null
-        @Inject set
     var viewModelFactory: ViewModelFactory? = null
         @Inject set
     var mainActivityViewModel: MainActivityViewModel? = null
@@ -44,6 +43,11 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+    override fun onClick(v: View?) {
+        if (v?.id == R.id.clMyFavorite)
+            startActivity(Intent(this, FavoriteActivity::class.java))
+    }
 
     private fun consumeServiceTeamsByLeague(league: String) {
         if (leagueSelected != league) {
