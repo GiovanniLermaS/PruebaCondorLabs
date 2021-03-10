@@ -8,6 +8,7 @@ import com.example.pruebacondorlabs.di.DatabaseInfo
 import com.example.pruebacondorlabs.di.module.ApplicationModule
 import com.example.pruebacondorlabs.di.module.DatabaseModule
 import com.example.pruebacondorlabs.di.module.RetrofitModule
+import com.example.pruebacondorlabs.view.detail.DetailActivity
 import com.example.pruebacondorlabs.view.main.MainActivity
 import dagger.Component
 import javax.inject.Singleton
@@ -17,6 +18,7 @@ import javax.inject.Singleton
 interface ApplicationComponent {
     fun inject(myApplication: MyApplication?)
     fun inject(mainActivity: MainActivity?)
+    fun inject(detailActivity: DetailActivity?)
 
     @get:ApplicationContext
     val context: Context?

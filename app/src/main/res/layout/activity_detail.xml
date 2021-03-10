@@ -1,9 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".view.detail.DetailActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivTeamJerseyDescription"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivTeamBadgeDescription"
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="@+id/ivTeamJerseyDescription"
+            app:layout_constraintTop_toBottomOf="@+id/ivTeamJerseyDescription"
+            app:layout_constraintWidth_percent="0.35" />
+
+        <TextView
+            android:id="@+id/tvNameTeamDescription"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:gravity="bottom"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tvFormedTeamDescription"
+            app:layout_constraintEnd_toEndOf="@+id/ivTeamJerseyDescription"
+            app:layout_constraintStart_toEndOf="@+id/ivTeamBadgeDescription"
+            app:layout_constraintTop_toTopOf="@+id/ivTeamBadgeDescription" />
+
+        <TextView
+            android:id="@+id/tvFormedTeamDescription"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="@+id/ivTeamBadgeDescription"
+            app:layout_constraintEnd_toEndOf="@+id/tvNameTeamDescription"
+            app:layout_constraintStart_toEndOf="@+id/ivTeamBadgeDescription"
+            app:layout_constraintTop_toBottomOf="@+id/tvNameTeamDescription" />
+
+        <TextView
+            android:id="@+id/tvFoundDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="@+id/tvFormedTeamDescription"
+            app:layout_constraintStart_toStartOf="@+id/ivTeamBadgeDescription"
+            app:layout_constraintTop_toBottomOf="@+id/ivTeamBadgeDescription" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvFoundDescription">
+
+            <ImageView
+                android:id="@+id/ivGlobe"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:onClick="onClick"
+                android:src="@drawable/ic_globe"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ivFacebook"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivFacebook"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="20dp"
+                android:onClick="onClick"
+                android:src="@drawable/ic_facebook"
+                app:layout_constraintEnd_toStartOf="@+id/ivTwitter"
+                app:layout_constraintStart_toEndOf="@+id/ivGlobe"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivTwitter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="20dp"
+                android:onClick="onClick"
+                android:src="@drawable/ic_twitter"
+                app:layout_constraintEnd_toStartOf="@+id/ivInstagram"
+                app:layout_constraintStart_toEndOf="@+id/ivFacebook"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivInstagram"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="20dp"
+                android:onClick="onClick"
+                android:src="@drawable/ic_instagram"
+                app:layout_constraintEnd_toStartOf="@+id/ivYoutube"
+                app:layout_constraintStart_toEndOf="@+id/ivTwitter"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivYoutube"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="20dp"
+                android:onClick="onClick"
+                android:src="@drawable/ic_youtube"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ivInstagram"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

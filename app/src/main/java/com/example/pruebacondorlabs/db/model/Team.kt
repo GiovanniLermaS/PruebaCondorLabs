@@ -1,8 +1,9 @@
 package com.example.pruebacondorlabs.db.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
-class Team {
+class Team : Serializable {
     @SerializedName("idTeam")
     var idTeam: Int? = null
 
@@ -11,6 +12,12 @@ class Team {
 
     @SerializedName("strStadium")
     var strStadium: String? = null
+
+    @SerializedName("strDescriptionEN")
+    var strDescriptionEn: String? = null
+
+    @SerializedName("strDescriptionES")
+    var strDescriptionEs: String? = null
 
     @SerializedName("intFormedYear")
     var intFormedYear: Int? = null

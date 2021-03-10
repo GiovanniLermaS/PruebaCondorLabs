@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">PruebaCondorLabs</string>
     <string name="loading">Cargando</string>
+    <string name="name">Name</string>
+    <string name="stadium">Estadio</string>
+    <string name="yearFormed">Año formación</string>
 </resources>

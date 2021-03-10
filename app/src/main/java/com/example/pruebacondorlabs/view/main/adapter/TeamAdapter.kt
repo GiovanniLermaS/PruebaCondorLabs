@@ -1,6 +1,7 @@
 package com.example.pruebacondorlabs.view.main.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -10,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.pruebacondorlabs.R
 import com.example.pruebacondorlabs.db.model.Team
+import com.example.pruebacondorlabs.util.TEAM
+import com.example.pruebacondorlabs.view.detail.DetailActivity
 
 class TeamAdapter(
     private val context: Context,
@@ -37,10 +40,16 @@ class TeamAdapter(
             ).fitCenter()
             .into(holder.itemView.findViewById(R.id.ivTeamBadge))
 
-        holder.itemView.findViewById<TextView>(R.id.tvNameTeam).text = listTeams[position].strTeam
-        holder.itemView.findViewById<TextView>(R.id.tvStadiumTeam).text =
-            listTeams[position].strStadium
-        holder.itemView.setOnClickListener {}
+        val name = "${context.getString(R.string.name)}: ${listTeams[position].strTeam}"
+        val stadium = "${context.getString(R.string.stadium)}: ${listTeams[position].strStadium}"
+
+        holder.itemView.findViewById<TextView>(R.id.tvNameTeam).text = name
+        holder.itemView.findViewById<TextView>(R.id.tvStadiumTeam).text = stadium
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra(TEAM, listTeams[position])
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount() = listTeams?.size!!
