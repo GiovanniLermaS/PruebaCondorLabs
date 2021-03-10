@@ -6,21 +6,13 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import com.example.pruebacondorlabs.R
-import java.text.NumberFormat
 
-const val BASE_URL_RETROFIT = "https://api.mercadolibre.com"
-const val SITES = "/sites"
-const val ITEMS = "/items"
-const val SEARCH_BY_SITE = "/search?q="
-const val COP = "COP"
-const val WORD_SEARCH = "wordSearch"
-const val ID_SITE = "idSite"
-const val IDS = "ids"
-const val IDS_INTENT = "ids"
+const val BASE_URL_RETROFIT = "https://www.thesportsdb.com/api/v1/json/1/"
+const val ALL_TEAMS_BY_LEAGUE = "search_all_teams.php"
+const val LEAGUE = "l"
+const val SPANISH_LA_LIGA = "Spanish La Liga"
 
 var dialog: Dialog? = null
-
-var formatter: NumberFormat = NumberFormat.getCurrencyInstance()
 
 fun hasNetwork(context: Context): Boolean? {
     var isConnected: Boolean? = false

@@ -3,7 +3,7 @@ package com.example.pruebacondorlabs.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.pruebacondorlabs.db.model.Site
+import com.example.pruebacondorlabs.db.model.Teams
 import com.example.pruebacondorlabs.repository.MainActivityRepository
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -15,10 +15,10 @@ import javax.inject.Inject
 class MainActivityViewModel @Inject constructor(private val mainActivityRepository: MainActivityRepository) :
     ViewModel() {
 
-    private val successMain: MutableLiveData<ArrayList<Site>> = MutableLiveData()
+    private val successMain: MutableLiveData<Teams> = MutableLiveData()
     private val errorMain = MutableLiveData<String>()
 
-    fun getSuccessMain(): LiveData<ArrayList<Site>> {
+    fun getSuccessMain(): LiveData<Teams> {
         return successMain
     }
 
@@ -26,22 +26,22 @@ class MainActivityViewModel @Inject constructor(private val mainActivityReposito
         return errorMain
     }
 
-    fun getSites() {
-        mainActivityRepository.getSites().subscribeOn(Schedulers.io())
+    fun getTeamsByLeague(league: String) {
+        mainActivityRepository.getTeamsByLeague(league).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : SingleObserver<Response<ArrayList<Site>>> {
+            .subscribe(object : SingleObserver<Response<Teams>> {
                 override fun onSubscribe(d: Disposable) {}
 
                 override fun onError(e: Throwable) {
                     errorMain.value = e.message
                 }
 
-                override fun onSuccess(sites: Response<ArrayList<Site>>) {
+                override fun onSuccess(teams: Response<Teams>) {
                     try {
-                        successMain.value = sites.body()
+                        successMain.value = teams.body()
                     } catch (e: Exception) {
                         errorMain.value =
-                            "El servicio para los detalles falló, vuelve a atrás e intenta"
+                            "El servicio falló, vuelve a intentar"
                     }
                 }
             })
