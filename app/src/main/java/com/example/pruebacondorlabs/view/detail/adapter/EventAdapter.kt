@@ -11,28 +11,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.pruebacondorlabs.R
 import com.example.pruebacondorlabs.db.model.Result
-import com.example.pruebacondorlabs.view.main.adapter.TeamAdapter
 import java.text.SimpleDateFormat
 import java.util.*
 
 class EventAdapter(
     private val context: Context,
     private val listResults: ArrayList<Result>?
-) : RecyclerView.Adapter<TeamAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<EventAdapter.ViewHolder>() {
 
     private val simpleDateFormat1 = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX", Locale.getDefault())
     private val simpleDateFormat2 = SimpleDateFormat("MMMM dd, yyyy\nhh:mm a", Locale.getDefault())
 
     class ViewHolder(itemViewGroup: ViewGroup) : RecyclerView.ViewHolder(itemViewGroup)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamAdapter.ViewHolder {
-        return TeamAdapter.ViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.view_result, parent, false) as ConstraintLayout
         )
     }
 
-    override fun onBindViewHolder(holder: TeamAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val imageViewThumb = holder.itemView.findViewById<ImageView>(R.id.tvThumbResult)
         val date1 = simpleDateFormat1.parse(listResults!![position].strTimestamp!!)
         val event = "${context.getString(R.string.match)}: ${listResults[position].strEvent}"

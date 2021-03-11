@@ -113,6 +113,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
     private fun consumeEventByTeam() {
         detailActivityViewModel?.getEventsByTeamId(team.idTeam.toString())
         detailActivityViewModel?.getSuccessDetail()?.observe(this) { listResults ->
+            listResults.results.reverse()
             rvListEvents.adapter = EventAdapter(this, listResults.results)
             showProgress(this, isAlertInit = false)
         }
